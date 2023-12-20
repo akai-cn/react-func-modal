@@ -28,5 +28,15 @@
   "dependencies": {
     "@types/react": "^17.0.2",
     "@types/react-dom": "^17.0.2"
-  }
+  },
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/akai-cn/react-func-modal.git"
+  },
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/akai-cn/react-func-modal/issues"
+  },
+  "homepage": "https://github.com/akai-cn/react-func-modal#readme"
 }

@@ -4,7 +4,7 @@ import Base from './base';
 
 /**
  * @example
- * import { Modal } from 'yxp-ui'
+ * import Modal from 'react-func-modal';
  * import YourWidget from 'your-component-path';
  *
  * Modal.show({

@@ -6,17 +6,23 @@
 ## Install
 
 ```bash
-$ yarn install
+$ yarn add react-func-modal
 ```
 
-```bash
-$ npm run dev
-$ npm run build
+## Example
+
 ```
+import Modal from 'react-func-modal';
+import YourWidget from 'your-component-path';
 
-## Options
-
-TODO
+Modal.show({
+   name: 'allotment',    // plan A need register
+   component: YourWidget // plan B
+   onOk: () => {},
+   params: {
+   }
+})
+```
 
 ## LICENSE
 

@@ -1,6 +1,6 @@
 {
   "name": "react-func-modal",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "a functional modal",
   "main": "lib/index.js",
   "module": "esm/index.js",
@@ -17,7 +17,8 @@
   ],
   "license": "MIT",
   "files": [
-    "dist"
+    "lib",
+    "esm"
   ],
   "publishConfig": {
     "access": "public"

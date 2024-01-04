@@ -1,5 +1,11 @@
 import { defineConfig } from 'father';
 
 export default defineConfig({
-  esm: {},
+  esm: {
+    output: 'esm'
+  },
+  cjs: {
+    output: 'lib',
+    platform: 'browser'
+  }
 });

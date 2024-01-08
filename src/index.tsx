@@ -33,11 +33,10 @@ export interface IFunctionModals extends IModalParent {
   maskClosable?: boolean;
 }
 
-export interface ICustomModalProps<T = any> {
-  params?: T;
+export type ICustomModalProps<T = any> = {
   onOk?: Function;
   onCancel?: Function;
-}
+} & T
 
 export interface IFunctionModalProps extends IFunctionModals {
   getPopupContainer?: Function;

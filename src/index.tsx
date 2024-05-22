@@ -128,7 +128,7 @@ export default {
       document.body.classList.remove('func-body-modal');
     }
 
-    // config?.onCancel && config.onCancel();
+    config?.onCancel?.();
   },
 
   renderModal(config: IFunctionModalProps) {

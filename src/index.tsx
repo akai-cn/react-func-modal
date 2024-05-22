@@ -36,6 +36,7 @@ export interface IFunctionModals extends IModalParent {
 export type ICustomModalProps<T = any> = {
   onOk?: Function;
   onCancel?: Function;
+  onDestroy?: Function;
 } & T
 
 export interface IFunctionModalProps extends IFunctionModals {
@@ -47,7 +48,8 @@ export interface IFunctionModalProps extends IFunctionModals {
 
 enum DESTROY_TYPE {
   Ok = 0,
-  Cancel
+  Cancel,
+  Destroy
 }
 
 const modalParentNodeId = 'modalParentNodeId';
@@ -134,7 +136,7 @@ export default {
       document.body.classList.remove('func-body-modal');
     }
 
-    if (destroyType !== DESTROY_TYPE.Ok) {
+    if (destroyType === DESTROY_TYPE.Cancel) {
       config?.onCancel?.();
     }
   },
@@ -145,7 +147,7 @@ export default {
     let wrapElement = null;
 
     // 当前作用域内的config会被下一个弹窗修改, 再次做一次stage
-    function stageCancel(prevConfig: IFunctionModalProps, destroyType?: DESTROY_TYPE) {
+    function stageCancel(prevConfig: IFunctionModalProps, destroyType: DESTROY_TYPE) {
       var stageConfig = Object.assign({}, prevConfig);
       return () => {
         return _this.destroy(stageConfig, destroyType);
@@ -160,6 +162,7 @@ export default {
           stageOk()
           return config.onOk?.(...args)
         },
+        onDestroy: stageCancel(config, DESTROY_TYPE.Destroy),
         ...config.params,
       });
     }
@@ -168,7 +171,7 @@ export default {
       wrapElement = React.createElement(
         config.contentWrap,
         {
-          onCancel: stageCancel(config),
+          onCancel: stageCancel(config, DESTROY_TYPE.Cancel),
           maskClosable: config.maskClosable,
           placement: config.placement,
         },
@@ -183,7 +186,7 @@ export default {
     } else {
       return (
         <Base
-          onCancel={stageCancel(config)}
+          onCancel={stageCancel(config, DESTROY_TYPE.Cancel)}
           maskClosable={config.maskClosable}
           placement={config.placement}
           title={config.title}

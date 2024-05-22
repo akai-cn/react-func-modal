@@ -45,6 +45,11 @@ export interface IFunctionModalProps extends IFunctionModals {
   onCancel?: Function;
 }
 
+enum DESTROY_TYPE {
+  Ok = 0,
+  Cancel
+}
+
 const modalParentNodeId = 'modalParentNodeId';
 const modalToastNodeId = 'modalToastNodeId';
 let userModals: IFunctionModals[] = [];
@@ -99,6 +104,7 @@ export default {
   },
 
   toast(text: string, duration?: number) {
+    console.log('[react-func-modal] warn unfinished Function !')
     // MK-TODO: toast 方案
     // this.show({
     //     name: 'toast',
@@ -111,7 +117,7 @@ export default {
     // });
   },
 
-  destroy(config?: IFunctionModalProps) {
+  destroy(config: IFunctionModalProps, destroyType?: DESTROY_TYPE) {
     const div = document.getElementById(config?.parentId || modalParentNodeId);
 
     if (!div) {
@@ -128,7 +134,9 @@ export default {
       document.body.classList.remove('func-body-modal');
     }
 
-    config?.onCancel?.();
+    if (destroyType !== DESTROY_TYPE.Ok) {
+      config?.onCancel?.();
+    }
   },
 
   renderModal(config: IFunctionModalProps) {
@@ -137,17 +145,21 @@ export default {
     let wrapElement = null;
 
     // 当前作用域内的config会被下一个弹窗修改, 再次做一次stage
-    function stageCancel(prevConfig: IFunctionModalProps) {
+    function stageCancel(prevConfig: IFunctionModalProps, destroyType?: DESTROY_TYPE) {
       var stageConfig = Object.assign({}, prevConfig);
       return () => {
-        return _this.destroy(stageConfig);
+        return _this.destroy(stageConfig, destroyType);
       };
     }
 
     if (config.component) {
+      const stageOk = stageCancel(config, DESTROY_TYPE.Ok)
       modalElement = React.createElement(config.component, {
-        onCancel: stageCancel(config),
-        onOk: config.onOk,
+        onCancel: stageCancel(config, DESTROY_TYPE.Cancel),
+        onOk: (...args: any[]) => {
+          stageOk()
+          return config.onOk?.(...args)
+        },
         ...config.params,
       });
     }
